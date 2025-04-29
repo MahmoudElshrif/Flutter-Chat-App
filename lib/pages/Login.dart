@@ -1,4 +1,5 @@
-import "package:chatapp/components/TextField.dart";
+import "package:chatapp/components/my_button.dart";
+import "package:chatapp/components/my_textfield.dart";
 import "package:flutter/material.dart";
 
 class LoginPage extends StatelessWidget {
@@ -18,16 +19,36 @@ class LoginPage extends StatelessWidget {
           children: [
             Icon(Icons.message, size: 60, color: theme.primary),
             Text(
-              "WELL WELL LOOK WHO WE HAVE HERE >:(",
-              style: TextStyle(fontSize: 15),
+              "YOU CAME BACK :O????",
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
+
             SizedBox(height: 30),
             MyTextfield(hintText: "Email", controller: _emController),
+
             SizedBox(height: 10),
             MyTextfield(
               hintText: "password",
               controller: _pwController,
               ispassword: true,
+            ),
+
+            SizedBox(height: 20),
+            MyButton(text: "Login", onTap: Login),
+
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("don't have an accout? "),
+                Text(
+                  "Register now",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ],
             ),
           ],
         ),
@@ -35,5 +56,9 @@ class LoginPage extends StatelessWidget {
     );
 
     throw UnimplementedError();
+  }
+
+  void Login() {
+    print("HHEheheheheh");
   }
 }
