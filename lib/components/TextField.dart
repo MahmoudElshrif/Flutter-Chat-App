@@ -3,9 +3,11 @@ import "package:flutter/material.dart";
 class MyTextfield extends StatelessWidget {
   final String hintText;
   final bool ispassword;
+  final TextEditingController controller;
   const MyTextfield({
     super.key,
     required this.hintText,
+    required this.controller,
     this.ispassword = false,
   });
 
@@ -32,6 +34,7 @@ class MyTextfield extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
+        controller: controller,
       ),
     );
   }
