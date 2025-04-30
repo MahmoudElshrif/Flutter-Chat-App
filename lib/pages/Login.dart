@@ -1,3 +1,4 @@
+import "package:chatapp/auth/auth_service.dart";
 import "package:chatapp/components/my_button.dart";
 import "package:chatapp/components/my_textfield.dart";
 import "package:chatapp/pages/Register.dart";
@@ -6,6 +7,7 @@ import "package:flutter/material.dart";
 class LoginPage extends StatelessWidget {
   final TextEditingController _emController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
+  String errormessage = "";
   LoginPage({super.key});
 
   @override
@@ -28,6 +30,7 @@ class LoginPage extends StatelessWidget {
             ),
 
             SizedBox(height: 30),
+            if (errormessage != "") Text(errormessage),
             MyTextfield(hintText: "Email", controller: _emController),
 
             SizedBox(height: 10),
@@ -60,12 +63,21 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-
-    throw UnimplementedError();
   }
 
-  void Login() {
-    print("HHEheheheheh");
+  void Login() async {
+    final auth = AuthService();
+
+    try {
+      final credit = await auth.signinwithemailandpassword(
+        _emController.text,
+        _pwController.text,
+      );
+      print(credit.user?.email);
+      print(credit.user?.displayName);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void onRegisterTap(BuildContext context) {
