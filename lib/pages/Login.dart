@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
             ),
 
             SizedBox(height: 20),
-            MyButton(text: "Login", onTap: Login),
+            MyButton(text: "Login", onTap: () => Login(context)),
 
             SizedBox(height: 20),
             Row(
@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void Login() async {
+  void Login(context) async {
     final auth = AuthService();
 
     try {
@@ -71,10 +71,10 @@ class LoginPage extends StatelessWidget {
         _emController.text,
         _pwController.text,
       );
-      print(credit.user?.email);
-      print(credit.user?.displayName);
     } catch (e) {
-      print(e.toString());
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("error Loginginging ingin")));
     }
   }
 
