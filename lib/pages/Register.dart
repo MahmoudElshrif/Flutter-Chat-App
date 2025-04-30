@@ -1,3 +1,4 @@
+import "package:chatapp/auth/auth_service.dart";
 import "package:chatapp/components/my_button.dart";
 import "package:chatapp/components/my_textfield.dart";
 import "package:chatapp/pages/Login.dart";
@@ -33,11 +34,7 @@ class RegisterPage extends StatelessWidget {
             MyTextfield(hintText: "Email", controller: _emController),
 
             SizedBox(height: 10),
-            MyTextfield(
-              hintText: "Username",
-              controller: _nameController,
-              ispassword: false,
-            ),
+            MyTextfield(hintText: "Username", controller: _nameController),
 
             SizedBox(height: 10),
             MyTextfield(
@@ -53,7 +50,7 @@ class RegisterPage extends StatelessWidget {
             ),
 
             SizedBox(height: 20),
-            MyButton(text: "Register", onTap: Regsiter),
+            MyButton(text: "Register", onTap: () => Register(context)),
 
             SizedBox(height: 20),
             Row(
@@ -75,12 +72,27 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
-
-    throw UnimplementedError();
   }
 
-  void Regsiter() {
-    print("HHEheheheheh");
+  void Register(context) async {
+    final auth = AuthService();
+    if (_pwController.text != _pwconfirmController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Passwords don't match")));
+      return;
+    }
+    try {
+      await auth.signup(
+        _emController.text,
+        _pwController.text,
+        _nameController.text,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error Registering")));
+    }
   }
 
   void onLoginTap(context) {
