@@ -1,5 +1,6 @@
 import "package:chatapp/components/my_button.dart";
 import "package:chatapp/components/my_textfield.dart";
+import "package:chatapp/pages/Login.dart";
 import "package:flutter/material.dart";
 
 class RegisterPage extends StatelessWidget {
@@ -59,9 +60,14 @@ class RegisterPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Already have an account? "),
-                Text(
-                  "Log in",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                GestureDetector(
+                  onTap: () {
+                    onLoginTap(context);
+                  },
+                  child: Text(
+                    "Log in",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ],
             ),
@@ -75,5 +81,12 @@ class RegisterPage extends StatelessWidget {
 
   void Regsiter() {
     print("HHEheheheheh");
+  }
+
+  void onLoginTap(context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
   }
 }
