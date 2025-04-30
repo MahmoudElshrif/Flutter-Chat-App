@@ -7,7 +7,6 @@ import "package:flutter/material.dart";
 class LoginPage extends StatelessWidget {
   final TextEditingController _emController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
-  String errormessage = "";
   LoginPage({super.key});
 
   @override
@@ -30,7 +29,6 @@ class LoginPage extends StatelessWidget {
             ),
 
             SizedBox(height: 30),
-            if (errormessage != "") Text(errormessage),
             MyTextfield(hintText: "Email", controller: _emController),
 
             SizedBox(height: 10),

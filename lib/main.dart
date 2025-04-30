@@ -1,4 +1,5 @@
 import 'package:chatapp/Themes.dart';
+import 'package:chatapp/auth/auth_gate.dart';
 import 'package:chatapp/firebase_options.dart';
 import 'package:chatapp/pages/Register.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +18,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: RegisterPage(), theme: lightTheme);
+    return MaterialApp(home: AuthGate(), theme: lightTheme);
   }
 }
