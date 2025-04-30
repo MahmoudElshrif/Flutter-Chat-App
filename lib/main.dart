@@ -1,5 +1,6 @@
 import 'package:chatapp/pages/Login.dart';
 import 'package:chatapp/Themes.dart';
+import 'package:chatapp/pages/Register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +12,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginPage(), theme: lightTheme);
+    return MaterialApp(home: RegisterPage(), theme: lightTheme);
   }
 }
