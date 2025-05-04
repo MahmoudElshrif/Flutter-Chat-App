@@ -18,17 +18,21 @@ class MyTextfield extends StatelessWidget {
       child: TextField(
         obscureText: ispassword,
         decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.tertiary,
             ),
+            borderRadius: BorderRadius.all(Radius.circular(13)),
           ),
-
           disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
+
           fillColor: Theme.of(context).colorScheme.secondary,
           filled: true,
           hintText: hintText,
