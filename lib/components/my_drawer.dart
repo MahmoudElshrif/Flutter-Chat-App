@@ -1,4 +1,5 @@
 import 'package:chatapp/auth/auth_service.dart';
+import 'package:chatapp/components/drawer_tile.dart';
 import 'package:chatapp/pages/Home.dart';
 import 'package:chatapp/pages/Settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,81 +17,54 @@ class MyDrawer extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                header(context),
-
-                //Profile
-                Column(
-                  children: [
-                    tile(
-                      Icons.home,
-                      "Home",
-                      context,
-                      onTap: () {
-                        Navigator.of(
-                          context,
-                        ).popUntil((route) => route.isFirst);
-                      },
-                    ),
-                    tile(
-                      Icons.settings,
-                      "Settings",
-                      context,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SettingsPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(bottom: 25),
-              child: tile(
-                Icons.logout,
-                "Log out",
-                context,
-                onTap: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                  AuthService auth = new AuthService();
-                  auth.signout();
-                },
-              ),
-            ),
-          ],
+          children: [topButtons(context), bottomButtons(context)],
         ),
       ),
     );
   }
 
-  Widget tile(icon, text, context, {required Function onTap}) {
+  Padding bottomButtons(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 17),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          size: 30,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        title: Text(text),
-        titleAlignment: ListTileTitleAlignment.center,
-        horizontalTitleGap: 20,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+      padding: EdgeInsets.only(bottom: 25),
+      child: DrawerTile(
+        icon: Icons.logout,
+        text: "Log out",
         onTap: () {
-          Navigator.of(context).pop();
-          onTap();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          AuthService auth = new AuthService();
+          auth.signout();
         },
       ),
+    );
+  }
+
+  Column topButtons(BuildContext context) {
+    return Column(
+      children: [
+        header(context),
+
+        //Profile
+        Column(
+          children: [
+            DrawerTile(
+              icon: Icons.home,
+              text: "Home",
+              onTap: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
+            DrawerTile(
+              icon: Icons.settings,
+              text: "Settings",
+              onTap: () {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
