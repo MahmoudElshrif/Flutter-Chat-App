@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
   }
 
   void onRegisterTap(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => RegisterPage()),
     );

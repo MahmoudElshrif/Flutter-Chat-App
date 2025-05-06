@@ -88,7 +88,7 @@ class RegisterPage extends StatelessWidget {
         _pwController.text,
         _nameController.text,
       );
-      
+      Navigator.of(context).pop();
     } catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -97,9 +97,6 @@ class RegisterPage extends StatelessWidget {
   }
 
   void onLoginTap(context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+    Navigator.of(context).pop();
   }
 }
