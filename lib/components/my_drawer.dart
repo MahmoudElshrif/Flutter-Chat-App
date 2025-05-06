@@ -1,4 +1,4 @@
-import 'package:chatapp/auth/auth_service.dart';
+import 'package:chatapp/services/auth_service.dart';
 import 'package:chatapp/components/drawer_tile.dart';
 import 'package:chatapp/pages/Home.dart';
 import 'package:chatapp/pages/Settings.dart';
@@ -57,9 +57,7 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.settings,
               text: "Settings",
               onTap: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+                SettingsPage.open(context);
               },
             ),
           ],

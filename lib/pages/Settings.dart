@@ -10,4 +10,15 @@ class SettingsPage extends StatelessWidget {
       body: Center(child: Text('Settings Page')),
     );
   }
+
+  static void open(BuildContext context) {
+    if (ModalRoute.of(context)?.settings.name != "settings") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => SettingsPage(),
+          settings: const RouteSettings(name: "settings"),
+        ),
+      );
+    }
+  }
 }

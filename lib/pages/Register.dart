@@ -1,4 +1,4 @@
-import "package:chatapp/auth/auth_service.dart";
+import "package:chatapp/services/auth_service.dart";
 import "package:chatapp/components/my_button.dart";
 import "package:chatapp/components/my_textfield.dart";
 import "package:chatapp/pages/Login.dart";
@@ -88,6 +88,7 @@ class RegisterPage extends StatelessWidget {
         _pwController.text,
         _nameController.text,
       );
+      
     } catch (e) {
       ScaffoldMessenger.of(
         context,
