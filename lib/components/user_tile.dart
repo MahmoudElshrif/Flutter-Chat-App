@@ -1,3 +1,4 @@
+import 'package:chatapp/pages/Chat.dart';
 import 'package:flutter/material.dart';
 
 class UserTile extends StatelessWidget {
@@ -11,7 +12,9 @@ class UserTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(userInfo['avatarUrl'] ?? ''),
+          backgroundImage: NetworkImage(
+            userInfo['avatarUrl'] ?? 'https://i.redd.it/jmfr69aabhse1.gif',
+          ),
           radius: 25,
         ),
         title: Text(
@@ -19,6 +22,11 @@ class UserTile extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(userInfo['email'] ?? 'No Email Provided'),
+        onTap: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => ChatPage()));
+        },
       ),
     );
   }

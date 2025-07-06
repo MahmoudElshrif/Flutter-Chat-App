@@ -6,18 +6,16 @@ class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //sign in
+
+  User? getCurrentUser(){
+    return auth.currentUser;
+  }
   Future<UserCredential> signinwithemailandpassword(email, password) async {
     try {
       UserCredential credit = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      _firestore.collection("Users").doc(credit.user!.uid).set({
-        "uid": credit.user!.uid,
-        "email": credit.user!.email,
-        "name": "name",
-      });
       return credit;
     } on FirebaseAuthException catch (e) {
       throw Exception(e);

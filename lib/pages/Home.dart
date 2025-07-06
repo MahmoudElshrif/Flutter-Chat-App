@@ -48,6 +48,11 @@ class HomePage extends StatelessWidget {
     Map<String, dynamic> userData,
     BuildContext context,
   ) {
-    return UserTile(userInfo: userData);
+    AuthService _auth = AuthService();
+    if (userData["email"] != _auth.getCurrentUser()!.email) {
+      return UserTile(userInfo: userData);
+    } else {
+      return Container();
+    }
   }
 }
