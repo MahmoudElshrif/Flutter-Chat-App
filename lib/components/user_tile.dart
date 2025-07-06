@@ -13,7 +13,8 @@ class UserTile extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           backgroundImage: NetworkImage(
-            userInfo['avatarUrl'] ?? 'https://i.redd.it/jmfr69aabhse1.gif',
+            userInfo['avatarUrl'] ??
+                'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg',
           ),
           radius: 25,
         ),
@@ -23,9 +24,7 @@ class UserTile extends StatelessWidget {
         ),
         subtitle: Text(userInfo['email'] ?? 'No Email Provided'),
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (context) => ChatPage()));
+          ChatPage.open(context, userInfo);
         },
       ),
     );

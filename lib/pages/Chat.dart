@@ -3,36 +3,44 @@ import 'package:flutter/material.dart';
 class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
+  final TextEditingController _messageController = TextEditingController();
+  final List<String> _messages = [];
+  final Map<String, dynamic> userData;
+  ChatPage({Key? key, required this.userData});
+  static void open(BuildContext context, Map<String, dynamic> _userData) {
+    final String email = _userData["email"];
+    if (ModalRoute.of(context)?.settings.name != "chat") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ChatPage(userData: _userData),
+          settings: const RouteSettings(name: "chat"),
+        ),
+      );
+    }
+  }
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final List<String> _messages = [];
-
   void _sendMessage() {
-    if (_messageController.text.trim().isNotEmpty) {
+    if (widget._messageController.text.trim().isNotEmpty) {
       setState(() {
-        _messages.add(_messageController.text.trim());
+        widget._messages.add(widget._messageController.text.trim());
       });
-      _messageController.clear();
+      widget._messageController.clear();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat'),
-      ),
+      appBar: AppBar(title: Text(widget.userData["name"])),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: _messages.length,
+              itemCount: widget._messages.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_messages[index]),
-                );
+                return ListTile(title: Text(widget._messages[index]));
               },
             ),
           ),
@@ -42,7 +50,7 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _messageController,
+                    controller: widget._messageController,
                     decoration: InputDecoration(
                       hintText: 'Type a message',
                       border: OutlineInputBorder(),
@@ -50,10 +58,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 SizedBox(width: 8),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: _sendMessage,
-                ),
+                IconButton(icon: Icon(Icons.send), onPressed: _sendMessage),
               ],
             ),
           ),
