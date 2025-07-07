@@ -1,3 +1,6 @@
+import 'package:chatapp/services/auth_service.dart';
+import 'package:chatapp/services/chat_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
@@ -21,11 +24,15 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  void _sendMessage() {
+  final ChatService _chat = ChatService();
+  final AuthService _auth = AuthService();
+
+  void _sendMessage() async {
     if (widget._messageController.text.trim().isNotEmpty) {
-      setState(() {
-        widget._messages.add(widget._messageController.text.trim());
-      });
+      _chat.sendMessage(
+        widget.userData["uid"],
+        widget._messageController.text.trim(),
+      );
       widget._messageController.clear();
     }
   }
@@ -37,10 +44,25 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: widget._messages.length,
-              itemBuilder: (context, index) {
-                return ListTile(title: Text(widget._messages[index]));
+            child: StreamBuilder(
+              stream: _chat.getMessages(
+                _auth.getCurrentUser()!.uid!,
+                widget.userData["uid"],
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Error...");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading...");
+                }
+
+                return ListView(
+                  children:
+                      snapshot.data!.docs
+                          .map((doc) => buildChatItem(doc))
+                          .toList(),
+                );
               },
             ),
           ),
@@ -64,6 +86,21 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildChatItem(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+    bool fromMe = data["senderID"] == _auth.getCurrentUser()!.uid;
+    String time =
+        data["timestamp"].toDate().hour.toString() +
+        ":" +
+        data["timestamp"].toDate().minute.toString();
+
+    return ListTile(
+      title: Text(data["message"]),
+      subtitle: Text(time),
+      tileColor: fromMe ? Colors.green : Colors.grey,
     );
   }
 }
