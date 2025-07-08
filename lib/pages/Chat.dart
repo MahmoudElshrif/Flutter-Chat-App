@@ -2,6 +2,7 @@ import 'package:chatapp/services/auth_service.dart';
 import 'package:chatapp/services/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -92,15 +93,33 @@ class _ChatPageState extends State<ChatPage> {
   Widget buildChatItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
     bool fromMe = data["senderID"] == _auth.getCurrentUser()!.uid;
-    String time =
-        data["timestamp"].toDate().hour.toString() +
-        ":" +
-        data["timestamp"].toDate().minute.toString();
 
-    return ListTile(
-      title: Text(data["message"]),
-      subtitle: Text(time),
-      tileColor: fromMe ? Colors.green : Colors.grey,
+    String time = DateFormat('hh:mm a').format(DateTime.now());
+
+    Container bubble = Container(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Text(data["message"], style: TextStyle(fontSize: 18)),
+            Text(time),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.end,
+        ),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: fromMe ? Colors.green : Colors.grey[600],
+      ),
+      constraints: BoxConstraints(maxWidth: 250, minWidth: 50),
+    );
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [bubble],
+        mainAxisAlignment:
+            fromMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      ),
     );
   }
 }
